@@ -1,23 +1,11 @@
 import React from "react";
-
-import Header from "./components/Header";
-import Home from "./pages/Home";
-import Cart from "./pages/Cart";
-import NotFound from "./pages/NotFound";
+import { RouterProvider } from "react-router-dom";
 
 import "./scss/app.scss";
+import router from "./router/router";
 
 function App() {
-  return (
-    <div className='wrapper'>
-      <Header />
-      <div className='content'>
-        <div className='container'>
-          <NotFound />
-        </div>
-      </div>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
