@@ -6,3 +6,41 @@ $orange: #fe5f1e;
 $container-width: 90%;
 
 $duration: 0.15s;
+
+// breackpoints
+$bp-desktop-hd: 1599px;
+$bp-desktop: 1366px;
+$bp-tablets: 1024px;
+$bp-phones: 768px;
+$bp-phones-small: 480px;
+
+// @media mixins
+@mixin desktopHd() {
+  @media screen and (max-width: $bp-desktop-hd) {
+    @content;
+  }
+}
+
+@mixin desktop() {
+  @media screen and (max-width: $bp-desktop) {
+    @content;
+  }
+}
+
+@mixin tablets() {
+  @media screen and (max-width: $bp-tablets) {
+    @content;
+  }
+}
+
+@mixin phones() {
+  @media screen and (max-width: $bp-phones) {
+    @content;
+  }
+}
+
+@mixin phones-small() {
+  @media screen and (max-width: $bp-phones-small) {
+    @content;
+  }
+}
