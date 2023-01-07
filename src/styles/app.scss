@@ -18,6 +18,7 @@ body {
 
   @include phones-small {
     width: 100vw;
+    margin: 0;
   }
 }
 
