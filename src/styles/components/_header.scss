@@ -8,6 +8,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @include phones {
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+    }
   }
 
   &__logo {
@@ -28,5 +34,9 @@
     p {
       color: #7b7b7b;
     }
+  }
+
+  &__cart {
+    align-self: flex-end;
   }
 }
