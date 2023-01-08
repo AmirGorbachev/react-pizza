@@ -52,11 +52,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 30px;
 
     @include desktopHd {
       flex-direction: column;
       align-items: flex-start;
+      gap: 30px;
     }
   }
 }
@@ -81,7 +81,7 @@ body {
     align-items: center;
   }
 
-  .content__title {
+  &__title {
     display: flex;
     align-items: center;
     font-size: 32px;
@@ -128,6 +128,14 @@ body {
         color: darken($color: #b6b6b6, $amount: 50);
       }
     }
+  }
+
+  &__items {
+    max-width: 780px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   &__item {
