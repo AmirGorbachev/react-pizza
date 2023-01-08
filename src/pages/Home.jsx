@@ -21,8 +21,8 @@ function Home() {
   const [sortType, setSortType] = React.useState(sortList[0]);
   const [orderType, setOrderType] = React.useState(false);
   const [searchBy, setSearchBy] = React.useState("");
-  const [page, setPage] = React.useState(0);
-  const totalPages = 3; // mockapi doesn't return amount of pages
+  const [page, setPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(0);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -33,11 +33,15 @@ function Home() {
     const search = searchBy !== "" ? `&search=${searchBy}` : "";
 
     fetch(
+      // `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas?page=${page}&limit=4${sort}${order}${category}${search}`
       `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas?page=${page}&limit=4${sort}${order}${category}${search}`
     )
       .then((data) => data.json())
       .then((json) => {
-        setPizzas(json);
+        setPizzas(json.items);
+        setTotalPages(Math.ceil(json.count / 4));
+
+        console.log("totalPages", totalPages);
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
@@ -67,7 +71,7 @@ function Home() {
       </div>
       <div className='content__items'>
         {isLoading
-          ? [...new Array(8)].map((_, index) => <PizzaSkeleton key={index} />)
+          ? [...new Array(4)].map((_, index) => <PizzaSkeleton key={index} />)
           : pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)}
       </div>
       <Pagination total={totalPages} onChangePage={(value) => setPage(value)} />
