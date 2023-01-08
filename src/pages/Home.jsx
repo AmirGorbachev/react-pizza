@@ -4,6 +4,8 @@ import Sort from "../components/Sort";
 import Categories from "../components/Categories";
 import PizzaBlock from "../components/PizzaBlock";
 import PizzaSkeleton from "../components/PizzaBlock/Skeleton";
+import Search from "../components/Search";
+import Pagination from "../components/Pagination";
 
 function Home() {
   const [pizzas, setPizzas] = React.useState([]);
@@ -18,16 +20,20 @@ function Home() {
   ];
   const [sortType, setSortType] = React.useState(sortList[0]);
   const [orderType, setOrderType] = React.useState(false);
+  const [searchBy, setSearchBy] = React.useState("");
+  const [page, setPage] = React.useState(0);
+  const totalPages = 3; // mockapi doesn't return amount of pages
 
   React.useEffect(() => {
     setIsLoading(true);
 
-    const sort = `sortBy=${sortType.value}`;
+    const sort = `&sortBy=${sortType.value}`;
     const order = orderType ? "&order=acs" : "&order=desc";
     const category = categoryId > 0 ? `&category=${categoryId}` : "";
+    const search = searchBy !== "" ? `&search=${searchBy}` : "";
 
     fetch(
-      `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas?${sort}${order}${category}`
+      `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas?page=${page}&limit=4${sort}${order}${category}${search}`
     )
       .then((data) => data.json())
       .then((json) => {
@@ -35,7 +41,7 @@ function Home() {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, orderType]);
+  }, [categoryId, sortType, orderType, searchBy, page]);
 
   return (
     <>
@@ -52,12 +58,19 @@ function Home() {
           onSelectOrderType={(id) => setOrderType(id)}
         />
       </div>
-      <h2 className='content__title'>Все пиццы</h2>
+      <div className='content__title-wrapper'>
+        <h2 className='content__title'>Все пиццы</h2>
+        <Search
+          value={searchBy}
+          onSelectSearchBy={(value) => setSearchBy(value)}
+        />
+      </div>
       <div className='content__items'>
         {isLoading
           ? [...new Array(8)].map((_, index) => <PizzaSkeleton key={index} />)
           : pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)}
       </div>
+      <Pagination total={totalPages} onChangePage={(value) => setPage(value)} />
     </>
   );
 }

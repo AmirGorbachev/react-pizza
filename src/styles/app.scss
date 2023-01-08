@@ -25,21 +25,22 @@ body {
 .content {
   padding: 40px 0;
 
+  &__title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   &__title {
     margin: 35px 0;
   }
 
   &__items {
     display: grid;
-    grid-template-rows: repeat(2, 1fr);
     grid-template-columns: repeat(4, 1fr);
     gap: 60px 30px;
 
     @include desktopHd {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    @include desktop {
       grid-template-columns: repeat(2, 1fr);
     }
 
