@@ -22,9 +22,7 @@ function Sort({
     <div className='sort'>
       <div className='sort__label'>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsOpenList(!isOpenList)}>
-          {sortType.title}
-        </span>{" "}
+        <span onClick={() => setIsOpenList(!isOpenList)}>{sortType.title}</span>
         <svg
           className={orderType ? "" : "down"}
           onClick={() => onSelectOrder()}
