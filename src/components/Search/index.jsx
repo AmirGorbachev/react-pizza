@@ -1,8 +1,12 @@
 import React from "react";
 
+import { SearchContext } from "../../pages/Home";
+
 import style from "./Search.module.scss";
 
-const Search = ({ value, onSelectSearchBy }) => {
+const Search = () => {
+  const { searchBy, setSearchBy } = React.useContext(SearchContext);
+
   return (
     <label className={style.root}>
       <svg className={style.iconSearch} viewBox='0 0 512 512' fill='black'>
@@ -12,13 +16,13 @@ const Search = ({ value, onSelectSearchBy }) => {
         className={style.input}
         type='text'
         placeholder='Поиск пиццы...'
-        value={value}
-        onChange={(event) => onSelectSearchBy(event.target.value)}
+        value={searchBy}
+        onChange={(event) => setSearchBy(event.target.value)}
       />
-      {value && (
+      {searchBy && (
         <svg
           className={style.iconClear}
-          onClick={() => onSelectSearchBy("")}
+          onClick={() => setSearchBy("")}
           height='48'
           viewBox='0 0 48 48'
           width='48'

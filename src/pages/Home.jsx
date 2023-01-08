@@ -7,6 +7,8 @@ import PizzaSkeleton from "../components/PizzaBlock/Skeleton";
 import Search from "../components/Search";
 import Pagination from "../components/Pagination";
 
+export const SearchContext = React.createContext();
+
 function Home() {
   const [pizzas, setPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -33,17 +35,15 @@ function Home() {
     const search = searchBy !== "" ? `&search=${searchBy}` : "";
 
     fetch(
-      // `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas?page=${page}&limit=4${sort}${order}${category}${search}`
       `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas?page=${page}&limit=4${sort}${order}${category}${search}`
     )
       .then((data) => data.json())
       .then((json) => {
         setPizzas(json.items);
         setTotalPages(Math.ceil(json.count / 4));
-
-        console.log("totalPages", totalPages);
         setIsLoading(false);
       });
+
     window.scrollTo(0, 0);
   }, [categoryId, sortType, orderType, searchBy, page]);
 
@@ -64,17 +64,21 @@ function Home() {
       </div>
       <div className='content__title-wrapper'>
         <h2 className='content__title'>Все пиццы</h2>
-        <Search
-          value={searchBy}
-          onSelectSearchBy={(value) => setSearchBy(value)}
-        />
+        <SearchContext.Provider value={{ searchBy, setSearchBy }}>
+          <Search />
+        </SearchContext.Provider>
       </div>
       <div className='content__items'>
         {isLoading
           ? [...new Array(4)].map((_, index) => <PizzaSkeleton key={index} />)
           : pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)}
       </div>
-      <Pagination total={totalPages} onChangePage={(value) => setPage(value)} />
+      {page > 0 && (
+        <Pagination
+          total={totalPages}
+          onChangePage={(value) => setPage(value)}
+        />
+      )}
     </>
   );
 }
