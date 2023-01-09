@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { useSelector } from "react-redux";
 
 import Sort from "../components/Sort";
@@ -28,15 +29,14 @@ function Home() {
     const orderMask = isOrderAsc ? "&order=acs" : "&order=desc";
     const categoryMask = category > 0 ? `&category=${category}` : "";
     const searchMask = searchBy !== "" ? `&search=${searchBy}` : "";
-    console.log(isOrderAsc);
 
-    fetch(
-      `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas?page=${page}&limit=4${sortMask}${orderMask}${categoryMask}${searchMask}`
-    )
-      .then((data) => data.json())
-      .then((json) => {
-        setPizzas(json.items);
-        setTotalPages(Math.ceil(json.count / 4));
+    axios
+      .get(
+        `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas?page=${page}&limit=4${sortMask}${orderMask}${categoryMask}${searchMask}`
+      )
+      .then((data) => {
+        setPizzas(data.data.items);
+        setTotalPages(Math.ceil(data.data.count / 4));
         setIsLoading(false);
       });
 
