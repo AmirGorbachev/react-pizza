@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import Sort from "../components/Sort";
 import Categories from "../components/Categories";
@@ -14,14 +15,8 @@ function Home() {
   const [isLoading, setIsLoading] = React.useState(true);
 
   // components
-  const [categoryId, setCategoryId] = React.useState(0);
-  const sortList = [
-    { title: "популярности", value: "rating" },
-    { title: "цене", value: "price" },
-    { title: "алфавиту", value: "title" },
-  ];
-  const [sortType, setSortType] = React.useState(sortList[0]);
-  const [orderType, setOrderType] = React.useState(false);
+  const { category, sort, isOrderAsc } = useSelector((state) => state.filter);
+
   const [searchBy, setSearchBy] = React.useState("");
   const [page, setPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(0);
@@ -29,13 +24,14 @@ function Home() {
   React.useEffect(() => {
     setIsLoading(true);
 
-    const sort = `&sortBy=${sortType.value}`;
-    const order = orderType ? "&order=acs" : "&order=desc";
-    const category = categoryId > 0 ? `&category=${categoryId}` : "";
-    const search = searchBy !== "" ? `&search=${searchBy}` : "";
+    const sortMask = `&sortBy=${sort.value}`;
+    const orderMask = isOrderAsc ? "&order=acs" : "&order=desc";
+    const categoryMask = category > 0 ? `&category=${category}` : "";
+    const searchMask = searchBy !== "" ? `&search=${searchBy}` : "";
+    console.log(isOrderAsc);
 
     fetch(
-      `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas?page=${page}&limit=4${sort}${order}${category}${search}`
+      `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas?page=${page}&limit=4${sortMask}${orderMask}${categoryMask}${searchMask}`
     )
       .then((data) => data.json())
       .then((json) => {
@@ -45,22 +41,13 @@ function Home() {
       });
 
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, orderType, searchBy, page]);
+  }, [category, sort, isOrderAsc, searchBy, page]);
 
   return (
     <>
       <div className='content__top'>
-        <Categories
-          value={categoryId}
-          onSelectCategory={(id) => setCategoryId(id)}
-        />
-        <Sort
-          sortType={sortType}
-          sortList={sortList}
-          orderType={orderType}
-          onSelectSortType={(id) => setSortType(id)}
-          onSelectOrderType={(id) => setOrderType(id)}
-        />
+        <Categories />
+        <Sort />
       </div>
       <div className='content__title-wrapper'>
         <h2 className='content__title'>Все пиццы</h2>

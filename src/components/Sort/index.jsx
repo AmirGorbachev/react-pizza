@@ -1,21 +1,25 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setSort, setOrderAsc } from "../../store/slices/filterSlice";
 
-function Sort({
-  sortType,
-  sortList,
-  onSelectSortType,
-  orderType,
-  onSelectOrderType,
-}) {
+function Sort() {
+  const {
+    sort: sortType,
+    sortList,
+    isOrderAsc: orderType,
+  } = useSelector((state) => state.filter);
+
+  const dispatch = useDispatch();
+
   const [isOpenList, setIsOpenList] = React.useState(false);
 
   const onSelectSortItem = (sortType) => {
-    onSelectSortType(sortType);
+    dispatch(setSort(sortType));
     setIsOpenList(false);
   };
 
   const onSelectOrder = () => {
-    onSelectOrderType(!orderType);
+    dispatch(setOrderAsc(!orderType));
   };
 
   return (
