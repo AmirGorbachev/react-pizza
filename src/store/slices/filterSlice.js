@@ -9,6 +9,9 @@ const initialState = {
   ],
   sort: { title: "популярности", value: "rating" },
   isOrderAsc: true,
+  currentPage: 1,
+  totalPages: 1,
+  searchBy: "",
 };
 
 export const filterSlice = createSlice({
@@ -24,13 +27,25 @@ export const filterSlice = createSlice({
     setOrderAsc: (state, action) => {
       state.isOrderAsc = action.payload;
     },
-    // incrementByAmount: (state, action) => {
-    //   state.value += action.payload;
-    // },
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+    setTotalPages: (state, action) => {
+      state.totalPages = action.payload;
+    },
+    setSearchBy: (state, action) => {
+      state.searchBy = action.payload;
+    },
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { setCategory, setSort, setOrderAsc } = filterSlice.actions;
+export const {
+  setCategory,
+  setSort,
+  setOrderAsc,
+  setCurrentPage,
+  setTotalPages,
+  setSearchBy,
+} = filterSlice.actions;
 
 export default filterSlice.reducer;
