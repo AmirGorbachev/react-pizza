@@ -16,7 +16,7 @@ const Skeleton = () => (
       <rect x='0' y='270' rx='5' ry='5' width='280' height='25' />
       <rect x='0' y='315' rx='10' ry='10' width='280' height='88' />
       <rect x='0' y='430' rx='5' ry='5' width='95' height='30' />
-      <rect x='125' y='422' rx='30' ry='30' width='152' height='45' />
+      <rect x='147' y='422' rx='30' ry='30' width='130' height='45' />
     </ContentLoader>
   </div>
 );

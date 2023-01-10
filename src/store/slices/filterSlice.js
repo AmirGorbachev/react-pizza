@@ -7,7 +7,7 @@ const initialState = {
     { title: "цене", value: "price" },
     { title: "алфавиту", value: "title" },
   ],
-  sort: { title: "популярности", value: "rating" },
+  sort: "rating",
   isOrderAsc: true,
   currentPage: 1,
   totalPages: 1,
@@ -36,6 +36,13 @@ export const filterSlice = createSlice({
     setSearchBy: (state, action) => {
       state.searchBy = action.payload;
     },
+    setFilters: (state, action) => {
+      state.category = Number(action.payload.category);
+      state.sort = action.payload.sort;
+      state.currentPage = Number(action.payload.currentPage);
+      state.searchBy = action.payload.searchBy;
+      state.isOrderAsc = Boolean(action.payload.isOrderAsc);
+    },
   },
 });
 
@@ -46,6 +53,7 @@ export const {
   setCurrentPage,
   setTotalPages,
   setSearchBy,
+  setFilters,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

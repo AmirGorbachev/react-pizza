@@ -11,10 +11,13 @@ function Sort() {
 
   const dispatch = useDispatch();
 
+  const sortRef = React.useRef();
+
   const [isOpenList, setIsOpenList] = React.useState(false);
+  const activeSort = sortList.find((item) => item.value === sortType);
 
   const onSelectSortItem = (sortType) => {
-    dispatch(setSort(sortType));
+    dispatch(setSort(sortType.value));
     setIsOpenList(false);
   };
 
@@ -22,13 +25,29 @@ function Sort() {
     dispatch(setOrderAsc(!orderType));
   };
 
+  React.useEffect(() => {
+    const handleClick = (event) => {
+      if (!event.path.includes(sortRef.current)) {
+        setIsOpenList(false);
+      }
+    };
+
+    document.body.addEventListener("click", handleClick);
+
+    return () => {
+      document.body.removeEventListener("click", handleClick);
+    };
+  }, []);
+
   return (
-    <div className='sort'>
+    <div ref={sortRef} className='sort'>
       <div className='sort__label'>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsOpenList(!isOpenList)}>{sortType.title}</span>
+        <span onClick={() => setIsOpenList(!isOpenList)}>
+          {activeSort.title}
+        </span>
         <svg
-          className={orderType ? "" : "down"}
+          className={orderType ? "down" : ""}
           onClick={() => onSelectOrder()}
           width='25'
           height='25'
@@ -62,7 +81,7 @@ function Sort() {
             {sortList.map((sortItem) => (
               <li
                 key={sortItem.value}
-                className={sortType.value === sortItem.value ? "active" : ""}
+                className={activeSort.value === sortItem.value ? "active" : ""}
                 onClick={() => onSelectSortItem(sortItem)}
               >
                 {sortItem.title}
