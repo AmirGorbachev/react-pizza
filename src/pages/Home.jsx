@@ -4,8 +4,6 @@ import qs from "qs";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { setTotalPages, setFilters } from "../store/slices/filterSlice";
-
 import Sort from "../components/Sort";
 import Categories from "../components/Categories";
 import PizzaBlock from "../components/PizzaBlock";
@@ -13,12 +11,15 @@ import PizzaSkeleton from "../components/PizzaBlock/Skeleton";
 import Search from "../components/Search";
 import Pagination from "../components/Pagination";
 
+import { setTotalPages, setFilters } from "../store/slices/filterSlice";
+import { setItems } from "../store/slices/pizzaSlice";
+
 function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [pizzas, setPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const pizzas = useSelector((state) => state.pizza.items);
   let hasUrlParams = React.useRef(false);
   let isMounted = React.useRef(false);
 
@@ -80,8 +81,13 @@ function Home() {
           `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas?page=${currentPage}&limit=4${sortMask}${orderMask}${categoryMask}${searchMask}`
         )
         .then((data) => {
-          setPizzas(data.data.items);
+          dispatch(setItems(data.data.items));
           dispatch(setTotalPages(Math.ceil(data.data.count / 4)));
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
           setIsLoading(false);
         });
     }
