@@ -6,7 +6,8 @@ import style from "./Pagination.module.scss";
 import { setCurrentPage } from "../../store/slices/filterSlice";
 
 const Pagination = () => {
-  const { currentPage, totalPages } = useSelector((state) => state.filter);
+  const { currentPage } = useSelector((state) => state.filter);
+  const { totalPages } = useSelector((state) => state.pizza);
   const dispatch = useDispatch();
 
   const onChangePage = (value) => {

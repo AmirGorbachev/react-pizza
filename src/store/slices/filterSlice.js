@@ -10,7 +10,6 @@ const initialState = {
   sort: "rating",
   isOrderAsc: true,
   currentPage: 1,
-  totalPages: 1,
   searchBy: "",
 };
 
@@ -30,9 +29,6 @@ export const filterSlice = createSlice({
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
     },
-    setTotalPages: (state, action) => {
-      state.totalPages = action.payload;
-    },
     setSearchBy: (state, action) => {
       state.searchBy = action.payload;
     },
@@ -51,7 +47,6 @@ export const {
   setSort,
   setOrderAsc,
   setCurrentPage,
-  setTotalPages,
   setSearchBy,
   setFilters,
 } = filterSlice.actions;

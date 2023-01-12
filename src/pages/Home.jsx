@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import qs from "qs";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -11,15 +10,16 @@ import PizzaSkeleton from "../components/PizzaBlock/Skeleton";
 import Search from "../components/Search";
 import Pagination from "../components/Pagination";
 
-import { setTotalPages, setFilters } from "../store/slices/filterSlice";
-import { setItems } from "../store/slices/pizzaSlice";
+import { setFilters } from "../store/slices/filterSlice";
+import { loadPizzas } from "../store/slices/pizzaSlice";
 
 function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = React.useState(true);
-  const pizzas = useSelector((state) => state.pizza.items);
+  const { items: pizzas, status: statusLoad } = useSelector(
+    (state) => state.pizza
+  );
   let hasUrlParams = React.useRef(false);
   let isMounted = React.useRef(false);
 
@@ -39,7 +39,7 @@ function Home() {
           sort: params.sort,
           currentPage: params.currentPage,
           searchBy: params.searchBy,
-          isOrderAsc: params.isOrderAsc,
+          order: params.isOrderAsc,
         })
       );
 
@@ -49,6 +49,8 @@ function Home() {
 
   // При последующих рендерах записывать параметры в URL
   React.useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (isMounted.current) {
       const queryString = qs.stringify({
         category,
@@ -61,39 +63,18 @@ function Home() {
       navigate(`?${queryString}`);
     }
 
+    dispatch(
+      loadPizzas({
+        search: searchBy.trim() ? searchBy.trim() : null,
+        order: isOrderAsc ? "acs" : "desc",
+        category: category > 0 ? category : null,
+        limit: 4,
+        page: currentPage,
+      })
+    );
+
     isMounted.current = true;
-  }, [category, sort, isOrderAsc, searchBy, currentPage, navigate]);
-
-  // Загрузка данных
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-
-    if (!hasUrlParams.current) {
-      setIsLoading(true);
-
-      const sortMask = `&sortBy=${sort}`;
-      const orderMask = isOrderAsc ? "&order=acs" : "&order=desc";
-      const categoryMask = category > 0 ? `&category=${category}` : "";
-      const searchMask = searchBy !== "" ? `&search=${searchBy}` : "";
-
-      axios
-        .get(
-          `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas?page=${currentPage}&limit=4${sortMask}${orderMask}${categoryMask}${searchMask}`
-        )
-        .then((data) => {
-          dispatch(setItems(data.data.items));
-          dispatch(setTotalPages(Math.ceil(data.data.count / 4)));
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
-
-    hasUrlParams.current = false;
-  }, [category, sort, isOrderAsc, searchBy, currentPage, dispatch]);
+  }, [category, sort, isOrderAsc, searchBy, currentPage, dispatch, navigate]);
 
   return (
     <>
@@ -106,7 +87,7 @@ function Home() {
         <Search />
       </div>
       <div className='content__items'>
-        {isLoading
+        {statusLoad === "loading"
           ? [...new Array(4)].map((_, index) => <PizzaSkeleton key={index} />)
           : pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)}
       </div>
