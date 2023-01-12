@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategory } from "../../store/slices/filterSlice";
+import { selectFilter, setCategory } from "../../store/slices/filterSlice";
 
 function Categories() {
-  const value = useSelector((state) => state.filter.category);
+  const { category: value } = useSelector(selectFilter);
   const dispatch = useDispatch();
 
   const categories = [

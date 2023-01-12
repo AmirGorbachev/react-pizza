@@ -10,23 +10,20 @@ import PizzaSkeleton from "../components/PizzaBlock/Skeleton";
 import Search from "../components/Search";
 import Pagination from "../components/Pagination";
 
-import { setFilters } from "../store/slices/filterSlice";
-import { loadPizzas } from "../store/slices/pizzaSlice";
+import { selectFilter, setFilters } from "../store/slices/filterSlice";
+import { loadPizzas, selectPizza } from "../store/slices/pizzaSlice";
 
 function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { items: pizzas, status: statusLoad } = useSelector(
-    (state) => state.pizza
-  );
+  const { items: pizzas, status: statusLoad } = useSelector(selectPizza);
   let hasUrlParams = React.useRef(false);
   let isMounted = React.useRef(false);
 
   // components
-  const { category, sort, isOrderAsc, currentPage, searchBy } = useSelector(
-    (state) => state.filter
-  );
+  const { category, sort, isOrderAsc, currentPage, searchBy } =
+    useSelector(selectFilter);
 
   // При первом рендере сохранять параметры в сторе
   React.useEffect(() => {
@@ -63,15 +60,7 @@ function Home() {
       navigate(`?${queryString}`);
     }
 
-    dispatch(
-      loadPizzas({
-        search: searchBy.trim() ? searchBy.trim() : null,
-        order: isOrderAsc ? "acs" : "desc",
-        category: category > 0 ? category : null,
-        limit: 4,
-        page: currentPage,
-      })
-    );
+    dispatch(loadPizzas());
 
     isMounted.current = true;
   }, [category, sort, isOrderAsc, searchBy, currentPage, dispatch, navigate]);

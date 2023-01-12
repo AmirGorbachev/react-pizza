@@ -55,11 +55,10 @@ export const cartSlice = createSlice({
       state.totalItems = 0;
       state.totalPrice = 0;
     },
-    hello: () => {
-      console.log(888);
-    },
   },
 });
+
+export const selectCart = (state) => state.cart;
 
 export const { addItem, removeItem, incCount, decCount, clearItems } =
   cartSlice.actions;

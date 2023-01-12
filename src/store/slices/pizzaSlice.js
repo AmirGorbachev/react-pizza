@@ -1,16 +1,37 @@
 import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export const loadPizzas = createAsyncThunk("pizza/load", async (params) => {
-  const { sortMask, orderMask, categoryMask, searchMask, currentPage } = params;
+export const loadPizzas = createAsyncThunk(
+  "pizza/load",
+  async (params, thunkApi) => {
+    const search = thunkApi.getState().filter.searchBy.trim();
+    const category = thunkApi.getState().filter.category;
+    const page = thunkApi.getState().filter.currentPage;
+    const order = thunkApi.getState().filter.isOrderAsc;
+    const sort = thunkApi.getState().filter.sort;
 
-  const response = await axios.get(
-    `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas`,
-    { params }
-  );
+    const response = await axios.get(
+      `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas`,
+      {
+        params: {
+          ...params,
+          search: search ? search : null,
+          category: category > 0 ? category : null,
+          page,
+          order: order ? "acs" : "desc",
+          sort,
+          limit: 4,
+        },
+      }
+    );
 
-  return response.data;
-});
+    if (response.data?.items.length === 0) {
+      thunkApi.rejectWithValue();
+    }
+
+    return response.data;
+  }
+);
 
 const initialState = {
   items: [],
@@ -41,7 +62,6 @@ export const pizzaSlice = createSlice({
     },
     [loadPizzas.fulfilled]: (state, action) => {
       state.status = "success";
-      console.log(action.payload);
       state.items = action.payload.items;
       state.totalPages = Math.ceil(action.payload.count / 4);
     },
@@ -51,6 +71,8 @@ export const pizzaSlice = createSlice({
     },
   },
 });
+
+export const selectPizza = (state) => state.pizza;
 
 export const { setItems, setTotalPages } = pizzaSlice.actions;
 
