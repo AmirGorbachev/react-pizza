@@ -8,7 +8,7 @@ import style from "./Search.module.scss";
 
 const Search = () => {
   const dispatch = useDispatch();
-  const searchBy = useSelector(selectFilter);
+  const { searchBy } = useSelector(selectFilter);
 
   const [value, setValue] = React.useState(searchBy);
   const inputRef = React.useRef();
