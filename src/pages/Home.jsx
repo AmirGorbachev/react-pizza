@@ -18,7 +18,6 @@ function Home() {
   const navigate = useNavigate();
 
   const { items: pizzas, status: statusLoad } = useSelector(selectPizza);
-  let hasUrlParams = React.useRef(false);
   let isMounted = React.useRef(false);
 
   // components
@@ -39,8 +38,6 @@ function Home() {
           order: params.isOrderAsc,
         })
       );
-
-      hasUrlParams.current = true;
     }
   }, [dispatch]);
 
