@@ -6,12 +6,12 @@ import style from "./Pagination.module.scss";
 import { selectFilter, setCurrentPage } from "../../store/slices/filterSlice";
 import { selectPizza } from "../../store/slices/pizzaSlice";
 
-const Pagination = () => {
+const Pagination: React.FC = () => {
   const { currentPage } = useSelector(selectFilter);
   const { totalPages } = useSelector(selectPizza);
   const dispatch = useDispatch();
 
-  const onChangePage = (value) => {
+  const onChangePage = (value: number) => {
     dispatch(setCurrentPage(value));
   };
 
@@ -26,7 +26,6 @@ const Pagination = () => {
         pageRangeDisplayed={4}
         forcePage={currentPage - 1}
         pageCount={totalPages}
-        renderOnZeroPageCount={null}
       />
     </div>
   );

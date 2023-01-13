@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// type SortItem
+
 const initialState = {
   category: 0,
   sortList: [
@@ -37,7 +39,7 @@ export const filterSlice = createSlice({
       state.sort = action.payload.sort;
       state.currentPage = Number(action.payload.currentPage);
       state.searchBy = action.payload.searchBy;
-      state.isOrderAsc = Boolean(action.payload.isOrderAsc);
+      state.isOrderAsc = action.payload.isOrderAsc;
     },
   },
 });

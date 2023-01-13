@@ -5,7 +5,15 @@ import { Link } from "react-router-dom";
 import { clearItems, selectCart } from "../../store/slices/cartSlice";
 import CartItem from "../CartItem";
 
-function CartItems() {
+type CartItem = {
+  id: number | string;
+  title: string;
+  price: number;
+  count: number;
+  imageUrl: string;
+};
+
+const CartItems: React.FC = () => {
   const dispatch = useDispatch();
   const { items, totalItems, totalPrice } = useSelector(selectCart);
 
@@ -90,7 +98,7 @@ function CartItems() {
         </div>
       </div>
       <div className='cart__items'>
-        {items.map((item) => (
+        {items.map((item: CartItem) => (
           <CartItem key={item.id} {...item} />
         ))}
       </div>
@@ -133,6 +141,6 @@ function CartItems() {
       </div>
     </div>
   );
-}
+};
 
 export default CartItems;

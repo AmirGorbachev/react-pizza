@@ -6,28 +6,29 @@ import { selectFilter, setSearchBy } from "../../store/slices/filterSlice";
 
 import style from "./Search.module.scss";
 
-const Search = () => {
+const Search: React.FC = () => {
   const dispatch = useDispatch();
   const { searchBy } = useSelector(selectFilter);
 
   const [value, setValue] = React.useState(searchBy);
-  const inputRef = React.useRef();
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const updateSearch = React.useCallback(
-    debounce((str) => {
+    debounce((str: string) => {
       dispatch(setSearchBy(str));
     }, 300),
     []
   );
 
-  const onChangeInput = (value) => {
+  const onChangeInput = (value: string) => {
     setValue(value);
     updateSearch(value);
   };
 
   const onClickClear = () => {
     onChangeInput("");
-    inputRef.current.focus();
+
+    inputRef.current?.focus();
   };
 
   return (

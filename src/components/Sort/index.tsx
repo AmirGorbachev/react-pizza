@@ -6,7 +6,12 @@ import {
   selectFilter,
 } from "../../store/slices/filterSlice";
 
-function Sort() {
+type SortItem = {
+  title: string;
+  value: string;
+};
+
+const Sort: React.FC = () => {
   const {
     sort: sortType,
     sortList,
@@ -15,12 +20,12 @@ function Sort() {
 
   const dispatch = useDispatch();
 
-  const sortRef = React.useRef();
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
   const [isOpenList, setIsOpenList] = React.useState(false);
-  const activeSort = sortList.find((item) => item.value === sortType);
+  const activeSort = sortList.find((item: SortItem) => item.value === sortType);
 
-  const onSelectSortItem = (sortType) => {
+  const onSelectSortItem = (sortType: SortItem) => {
     dispatch(setSort(sortType.value));
     setIsOpenList(false);
   };
@@ -30,7 +35,7 @@ function Sort() {
   };
 
   React.useEffect(() => {
-    const handleClick = (event) => {
+    const handleClick = (event: any) => {
       if (!event.path.includes(sortRef.current)) {
         setIsOpenList(false);
       }
@@ -82,7 +87,7 @@ function Sort() {
       {isOpenList && (
         <div className='sort__popup'>
           <ul>
-            {sortList.map((sortItem) => (
+            {sortList.map((sortItem: SortItem) => (
               <li
                 key={sortItem.value}
                 className={activeSort.value === sortItem.value ? "active" : ""}
@@ -96,6 +101,6 @@ function Sort() {
       )}
     </div>
   );
-}
+};
 
 export default Sort;

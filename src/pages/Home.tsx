@@ -13,14 +13,22 @@ import Pagination from "../components/Pagination";
 import { selectFilter, setFilters } from "../store/slices/filterSlice";
 import { loadPizzas, selectPizza } from "../store/slices/pizzaSlice";
 
-function Home() {
+type PizzaBlock = {
+  id: number | string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
+};
+
+const Home: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { items: pizzas, status: statusLoad } = useSelector(selectPizza);
   let isMounted = React.useRef(false);
 
-  // components
   const { category, sort, isOrderAsc, currentPage, searchBy } =
     useSelector(selectFilter);
 
@@ -35,7 +43,7 @@ function Home() {
           sort: params.sort,
           currentPage: params.currentPage,
           searchBy: params.searchBy,
-          order: params.isOrderAsc,
+          isOrderAsc: params.isOrderAsc !== "false",
         })
       );
     }
@@ -57,6 +65,7 @@ function Home() {
       navigate(`?${queryString}`);
     }
 
+    // @ts-ignore
     dispatch(loadPizzas());
 
     isMounted.current = true;
@@ -75,11 +84,13 @@ function Home() {
       <div className='content__items'>
         {statusLoad === "loading"
           ? [...new Array(4)].map((_, index) => <PizzaSkeleton key={index} />)
-          : pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)}
+          : pizzas.map((pizza: PizzaBlock) => (
+              <PizzaBlock key={pizza.id} {...pizza} />
+            ))}
       </div>
       {currentPage > 0 && <Pagination />}
     </>
   );
-}
+};
 
 export default Home;

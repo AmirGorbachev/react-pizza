@@ -8,7 +8,7 @@ export const loadPizzas = createAsyncThunk(
     const category = thunkApi.getState().filter.category;
     const page = thunkApi.getState().filter.currentPage;
     const order = thunkApi.getState().filter.isOrderAsc;
-    const sort = thunkApi.getState().filter.sort;
+    const sortBy = thunkApi.getState().filter.sort;
 
     const response = await axios.get(
       `https://63b84b4e6f4d5660c6d29fea.mockapi.io/pizzas`,
@@ -19,7 +19,7 @@ export const loadPizzas = createAsyncThunk(
           category: category > 0 ? category : null,
           page,
           order: order ? "acs" : "desc",
-          sort,
+          sortBy,
           limit: 4,
         },
       }

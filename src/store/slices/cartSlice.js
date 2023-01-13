@@ -50,7 +50,7 @@ export const cartSlice = createSlice({
       state.totalItems -= 1;
       state.totalPrice -= action.payload.price;
     },
-    clearItems: (state, action) => {
+    clearItems: (state) => {
       state.items = [];
       state.totalItems = 0;
       state.totalPrice = 0;
