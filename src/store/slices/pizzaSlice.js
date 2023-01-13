@@ -73,6 +73,8 @@ export const pizzaSlice = createSlice({
 });
 
 export const selectPizza = (state) => state.pizza;
+export const selectPizzaByID = (id) => (state) =>
+  state.cart.items.find((item) => item.id === id);
 
 export const { setItems, setTotalPages } = pizzaSlice.actions;
 
