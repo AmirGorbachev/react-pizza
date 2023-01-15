@@ -2,8 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { selectCart } from "../store/slices/cartSlice";
-import CartItems from "../components/CartItems";
-import Empty from "../components/CartItems/Empty";
+import CartItems from "../components/CartList";
+import Empty from "../components/CartList/Empty";
 
 const Cart: React.FC = () => {
   const { totalItems } = useSelector(selectCart);

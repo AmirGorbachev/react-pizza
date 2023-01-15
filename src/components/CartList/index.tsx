@@ -2,16 +2,13 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { clearItems, selectCart } from "../../store/slices/cartSlice";
-import CartItem from "../CartItem";
+import {
+  clearItems,
+  selectCart,
+  CartItem as CartItemProps,
+} from "../../store/slices/cartSlice";
 
-type CartItem = {
-  id: number | string;
-  title: string;
-  price: number;
-  count: number;
-  imageUrl: string;
-};
+import CartItem from "../CartBlock";
 
 const CartItems: React.FC = () => {
   const dispatch = useDispatch();
@@ -98,7 +95,7 @@ const CartItems: React.FC = () => {
         </div>
       </div>
       <div className='cart__items'>
-        {items.map((item: CartItem) => (
+        {items.map((item: CartItemProps) => (
           <CartItem key={item.id} {...item} />
         ))}
       </div>

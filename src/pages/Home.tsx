@@ -18,7 +18,7 @@ import {
 } from "../store/slices/filterSlice";
 import { loadPizzas, selectPizza, Status } from "../store/slices/pizzaSlice";
 
-type PizzaBlock = {
+type PizzaItem = {
   id: number | string;
   title: string;
   price: number;
@@ -88,7 +88,7 @@ const Home: React.FC = () => {
       <div className='content__items'>
         {statusLoad === Status.LOADING
           ? [...new Array(4)].map((_, index) => <PizzaSkeleton key={index} />)
-          : pizzas.map((pizza: PizzaBlock) => (
+          : pizzas.map((pizza: PizzaItem) => (
               <PizzaBlock key={pizza.id} {...pizza} />
             ))}
       </div>

@@ -7,7 +7,7 @@ import {
   CartItem as CartItemProps,
 } from "../../store/slices/cartSlice";
 
-const CartItem: React.FC<CartItemProps> = ({
+const CartBlock: React.FC<CartItemProps> = ({
   id,
   title,
   price,
@@ -136,4 +136,4 @@ const CartItem: React.FC<CartItemProps> = ({
   );
 };
 
-export default CartItem;
+export default CartBlock;
