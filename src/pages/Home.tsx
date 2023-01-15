@@ -3,12 +3,21 @@ import qs from "qs";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import Sort from "../components/Sort";
-import Categories from "../components/Categories";
-import PizzaBlock from "../components/PizzaBlock";
-import PizzaSkeleton from "../components/PizzaBlock/Skeleton";
-import Search from "../components/Search";
-import Pagination from "../components/Pagination";
+// import Sort from "../components/Sort";
+// import Categories from "../components/Categories";
+// import PizzaBlock from "../components/PizzaBlock";
+// import PizzaSkeleton from "../components/PizzaBlock/Skeleton";
+// import Search from "../components/Search";
+// import Pagination from "../components/Pagination";
+
+import {
+  Sort,
+  Categories,
+  PizzaBlock,
+  Skeleton,
+  Search,
+  Pagination,
+} from "../components";
 
 import { useAppDispatch } from "../store";
 import { selectFilter } from "../store/filter/selectors";
@@ -87,7 +96,7 @@ const Home: React.FC = () => {
       </div>
       <div className='content__items'>
         {statusLoad === Status.LOADING
-          ? [...new Array(4)].map((_, index) => <PizzaSkeleton key={index} />)
+          ? [...new Array(4)].map((_, index) => <Skeleton key={index} />)
           : pizzas.map((pizza: PizzaItem) => (
               <PizzaBlock key={pizza.id} {...pizza} />
             ))}

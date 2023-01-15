@@ -8,7 +8,7 @@ import { selectPizza } from "../../store/pizza/selectors";
 
 import style from "./Pagination.module.scss";
 
-const Pagination: React.FC = () => {
+export const Pagination: React.FC = () => {
   const { currentPage } = useSelector(selectFilter);
   const { totalPages } = useSelector(selectPizza);
   const dispatch = useDispatch();
@@ -32,5 +32,3 @@ const Pagination: React.FC = () => {
     </div>
   );
 };
-
-export default Pagination;

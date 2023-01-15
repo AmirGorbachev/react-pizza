@@ -15,32 +15,24 @@ const NotFound = React.lazy(() =>
 
 const router = createBrowserRouter([
   {
-    element: <AppLayout />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <AppLayout />
+      </Suspense>
+    ),
     errorElement: <NotFound />,
     children: [
       {
         path: "/",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Home />
-          </Suspense>
-        ),
+        element: <Home />,
       },
       {
         path: "/cart",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Cart />
-          </Suspense>
-        ),
+        element: <Cart />,
       },
       {
         path: "*",
-        element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Cart />
-          </Suspense>
-        ),
+        element: <NotFound />,
       },
     ],
   },

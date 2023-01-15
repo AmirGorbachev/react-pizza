@@ -1,19 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
 import { selectCart } from "../../store/cart/selectors";
 import { clearItems } from "../../store/cart/slice";
 import { CartItem as CartItemProps } from "../../store/cart/types";
 
-// import {
-//   clearItems,
-//   selectCart,
-//   CartItem as CartItemProps,
-// } from "../../store/cartSlice";
+import { CartBlock } from "../CartBlock";
 
-import CartItem from "../CartBlock";
-
-const CartItems: React.FC = () => {
+export const CartList: React.FC = () => {
   const dispatch = useDispatch();
   const { items, totalItems, totalPrice } = useSelector(selectCart);
 
@@ -99,7 +94,7 @@ const CartItems: React.FC = () => {
       </div>
       <div className='cart__items'>
         {items.map((item: CartItemProps) => (
-          <CartItem key={item.id} {...item} />
+          <CartBlock key={item.id} {...item} />
         ))}
       </div>
       <div className='cart__bottom'>
@@ -142,5 +137,3 @@ const CartItems: React.FC = () => {
     </div>
   );
 };
-
-export default CartItems;

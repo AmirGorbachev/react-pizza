@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { removeItem, incCount, decCount } from "../../store/cart/slice";
 import { CartItem } from "../../store/cart/types";
 
-const CartBlock: React.FC<CartItem> = ({
+export const CartBlock: React.FC<CartItem> = ({
   id,
   title,
   price,
@@ -131,5 +131,3 @@ const CartBlock: React.FC<CartItem> = ({
     </div>
   );
 };
-
-export default CartBlock;

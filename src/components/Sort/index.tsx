@@ -18,7 +18,7 @@ const sortList = [
   { title: "алфавиту", value: "title" },
 ];
 
-const Sort: React.FC = () => {
+export const Sort: React.FC = () => {
   const { sort: sortType, isOrderAsc: orderType } = useSelector(selectFilter);
 
   const dispatch = useDispatch();
@@ -107,5 +107,3 @@ const Sort: React.FC = () => {
     </div>
   );
 };
-
-export default Sort;

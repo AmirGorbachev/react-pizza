@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import logoSvg from "../../assets/img/pizza-logo.svg";
 import { selectCart } from "../../store/cart/selectors";
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   const { totalPrice, totalItems } = useSelector(selectCart);
 
   return (
@@ -59,5 +59,3 @@ const Header: React.FC = () => {
     </div>
   );
 };
-
-export default Header;
