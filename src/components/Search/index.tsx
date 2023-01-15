@@ -47,7 +47,7 @@ const Search: React.FC = () => {
       {value && (
         <svg
           className={style.iconClear}
-          onClick={() => onClickClear()}
+          onClick={onClickClear}
           height='48'
           viewBox='0 0 48 48'
           width='48'

@@ -1,6 +1,6 @@
 import React from "react";
 import qs from "qs";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import Sort from "../components/Sort";
@@ -10,8 +10,13 @@ import PizzaSkeleton from "../components/PizzaBlock/Skeleton";
 import Search from "../components/Search";
 import Pagination from "../components/Pagination";
 
-import { selectFilter, setFilters } from "../store/slices/filterSlice";
-import { loadPizzas, selectPizza } from "../store/slices/pizzaSlice";
+import { useAppDispatch } from "../store";
+import {
+  FilterParams,
+  selectFilter,
+  setFilters,
+} from "../store/slices/filterSlice";
+import { loadPizzas, selectPizza, Status } from "../store/slices/pizzaSlice";
 
 type PizzaBlock = {
   id: number | string;
@@ -23,7 +28,7 @@ type PizzaBlock = {
 };
 
 const Home: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { items: pizzas, status: statusLoad } = useSelector(selectPizza);
@@ -39,10 +44,10 @@ const Home: React.FC = () => {
 
       dispatch(
         setFilters({
-          category: params.category,
-          sort: params.sort,
-          currentPage: params.currentPage,
-          searchBy: params.searchBy,
+          category: Number(params.category),
+          sort: String(params.sort),
+          currentPage: Number(params.currentPage),
+          searchBy: String(params.searchBy),
           isOrderAsc: params.isOrderAsc !== "false",
         })
       );
@@ -65,8 +70,7 @@ const Home: React.FC = () => {
       navigate(`?${queryString}`);
     }
 
-    // @ts-ignore
-    dispatch(loadPizzas());
+    dispatch(loadPizzas({} as FilterParams));
 
     isMounted.current = true;
   }, [category, sort, isOrderAsc, searchBy, currentPage, dispatch, navigate]);
@@ -82,7 +86,7 @@ const Home: React.FC = () => {
         <Search />
       </div>
       <div className='content__items'>
-        {statusLoad === "loading"
+        {statusLoad === Status.LOADING
           ? [...new Array(4)].map((_, index) => <PizzaSkeleton key={index} />)
           : pizzas.map((pizza: PizzaBlock) => (
               <PizzaBlock key={pizza.id} {...pizza} />

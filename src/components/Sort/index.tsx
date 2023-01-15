@@ -11,12 +11,18 @@ type SortItem = {
   value: string;
 };
 
+type PopupCLick = MouseEvent & {
+  path: Node[];
+};
+
+const sortList = [
+  { title: "популярности", value: "rating" },
+  { title: "цене", value: "price" },
+  { title: "алфавиту", value: "title" },
+];
+
 const Sort: React.FC = () => {
-  const {
-    sort: sortType,
-    sortList,
-    isOrderAsc: orderType,
-  } = useSelector(selectFilter);
+  const { sort: sortType, isOrderAsc: orderType } = useSelector(selectFilter);
 
   const dispatch = useDispatch();
 
@@ -35,8 +41,10 @@ const Sort: React.FC = () => {
   };
 
   React.useEffect(() => {
-    const handleClick = (event: any) => {
-      if (!event.path.includes(sortRef.current)) {
+    const handleClick = (event: MouseEvent) => {
+      const _event = event as PopupCLick;
+
+      if (sortRef.current && !_event.path.includes(sortRef.current)) {
         setIsOpenList(false);
       }
     };
@@ -53,7 +61,7 @@ const Sort: React.FC = () => {
       <div className='sort__label'>
         <b>Сортировка по:</b>
         <span onClick={() => setIsOpenList(!isOpenList)}>
-          {activeSort.title}
+          {activeSort?.title}
         </span>
         <svg
           className={orderType ? "down" : ""}
@@ -90,7 +98,7 @@ const Sort: React.FC = () => {
             {sortList.map((sortItem: SortItem) => (
               <li
                 key={sortItem.value}
-                className={activeSort.value === sortItem.value ? "active" : ""}
+                className={activeSort?.value === sortItem.value ? "active" : ""}
                 onClick={() => onSelectSortItem(sortItem)}
               >
                 {sortItem.title}

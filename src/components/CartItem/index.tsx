@@ -1,14 +1,11 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { removeItem, incCount, decCount } from "../../store/slices/cartSlice";
-
-type CartItemProps = {
-  id: number | string;
-  title: string;
-  price: number;
-  count: number;
-  imageUrl: string;
-};
+import {
+  removeItem,
+  incCount,
+  decCount,
+  CartItem as CartItemProps,
+} from "../../store/slices/cartSlice";
 
 const CartItem: React.FC<CartItemProps> = ({
   id,
@@ -20,15 +17,39 @@ const CartItem: React.FC<CartItemProps> = ({
   const dispatch = useDispatch();
 
   const removeItemCart = () => {
-    dispatch(removeItem({ id, price, count }));
+    dispatch(
+      removeItem({
+        id,
+        title,
+        price,
+        count,
+        imageUrl,
+      })
+    );
   };
 
   const incCountItemCart = () => {
-    dispatch(incCount({ id, price, count }));
+    dispatch(
+      incCount({
+        id,
+        title,
+        price,
+        count,
+        imageUrl,
+      })
+    );
   };
 
   const decCountItemCart = () => {
-    dispatch(decCount({ id, price, count }));
+    dispatch(
+      decCount({
+        id,
+        title,
+        price,
+        count,
+        imageUrl,
+      })
+    );
   };
 
   return (

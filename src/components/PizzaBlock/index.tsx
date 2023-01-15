@@ -1,6 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../store/slices/cartSlice";
+import {
+  addItem,
+  CartItem as CartItemProps,
+} from "../../store/slices/cartSlice";
 import { selectPizzaByID } from "../../store/slices/pizzaSlice";
 
 type PizzaBlockProps = {
@@ -30,13 +33,14 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
   const dispatch = useDispatch();
 
   const onClickAddBtn = () => {
-    const item = {
+    const item: CartItemProps = {
       id,
       title,
       price,
       imageUrl,
       type: activeType,
       size: activeSizeIndex,
+      count: 1,
     };
 
     dispatch(addItem(item));
