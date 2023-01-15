@@ -3,6 +3,27 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { FilterParams } from "./filterSlice";
 import { RootState } from "..";
 
+export type PizzaItem = {
+  id: number | string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
+};
+
+export enum Status {
+  LOADING = "loading",
+  SUCCESS = "success",
+  ERROR = "error",
+}
+
+interface PizzaSliceState {
+  items: PizzaItem[];
+  totalPages: number;
+  status: Status;
+}
+
 type Response = {
   items: PizzaItem[];
   count: number;
@@ -41,27 +62,6 @@ export const loadPizzas = createAsyncThunk<
 
   return response.data as Response;
 });
-
-type PizzaItem = {
-  id: number | string;
-  title: string;
-  price: number;
-  imageUrl: string;
-  sizes: number[];
-  types: number[];
-};
-
-export enum Status {
-  LOADING = "loading",
-  SUCCESS = "success",
-  ERROR = "error",
-}
-
-interface PizzaSliceState {
-  items: PizzaItem[];
-  totalPages: number;
-  status: Status;
-}
 
 const initialState: PizzaSliceState = {
   items: [],
