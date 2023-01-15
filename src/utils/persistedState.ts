@@ -1,5 +1,4 @@
 import { CartItem } from "../store/cart/types";
-import { PizzaItem } from "../store/pizza/types";
 
 export const persistedState = {
   getCartItems: () => {
@@ -8,7 +7,7 @@ export const persistedState = {
 
     return items as CartItem[];
   },
-  setCartItems: (items: PizzaItem[]) => {
+  setCartItems: (items: CartItem[]) => {
     localStorage.setItem("cart", JSON.stringify(items));
   },
 };
