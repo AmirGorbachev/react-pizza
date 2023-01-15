@@ -1,12 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { selectCart } from "../../store/cart/selectors";
+import { clearItems } from "../../store/cart/slice";
+import { CartItem as CartItemProps } from "../../store/cart/types";
 
-import {
-  clearItems,
-  selectCart,
-  CartItem as CartItemProps,
-} from "../../store/slices/cartSlice";
+// import {
+//   clearItems,
+//   selectCart,
+//   CartItem as CartItemProps,
+// } from "../../store/cartSlice";
 
 import CartItem from "../CartBlock";
 

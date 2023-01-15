@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
-import { selectFilter, setCategory } from "../../store/slices/filterSlice";
+import { selectFilter } from "../../store/filter/selectors";
+import { setCategory } from "../../store/filter/slice";
 
 const Categories: React.FC = () => {
   const { category: value } = useSelector(selectFilter);

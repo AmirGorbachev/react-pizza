@@ -1,26 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "..";
-
-type SortItem = {
-  title: string;
-  value: "price" | "rating" | "title";
-};
-
-export type FilterParams = {
-  category?: number;
-  sort?: string;
-  isOrderAsc?: boolean;
-  currentPage?: number;
-  searchBy?: string;
-};
-
-export interface FilterSliceState {
-  category: number;
-  sort: string;
-  isOrderAsc: boolean;
-  currentPage: number;
-  searchBy: string;
-}
+import { FilterParams, FilterSliceState } from "./types";
 
 const initialState: FilterSliceState = {
   category: 0,
@@ -54,12 +33,10 @@ export const filterSlice = createSlice({
       state.sort = action.payload.sort || "rating";
       state.currentPage = Number(action.payload.currentPage) || 1;
       state.searchBy = action.payload.searchBy || "";
-      state.isOrderAsc = action.payload.isOrderAsc || true;
+      state.isOrderAsc = action.payload.isOrderAsc || false;
     },
   },
 });
-
-export const selectFilter = (state: RootState) => state.filter;
 
 export const {
   setCategory,

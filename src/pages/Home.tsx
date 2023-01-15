@@ -11,12 +11,12 @@ import Search from "../components/Search";
 import Pagination from "../components/Pagination";
 
 import { useAppDispatch } from "../store";
-import {
-  FilterParams,
-  selectFilter,
-  setFilters,
-} from "../store/slices/filterSlice";
-import { loadPizzas, selectPizza, Status } from "../store/slices/pizzaSlice";
+import { selectFilter } from "../store/filter/selectors";
+import { setFilters } from "../store/filter/slice";
+import { FilterParams } from "../store/filter/types";
+import { loadPizzas } from "../store/pizza/asyncActions";
+import { selectPizza } from "../store/pizza/selectors";
+import { Status } from "../store/pizza/types";
 
 type PizzaItem = {
   id: number | string;
